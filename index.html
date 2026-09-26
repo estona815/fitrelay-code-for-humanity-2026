@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f5">
+  <title>FitRelay — compare donated garments</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#compare">FitRelay</a>
+      <span class="privacy"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="4.2" y="8.3" width="11.6" height="9" rx="2"/><path d="M6.7 8.3V6a3.3 3.3 0 0 1 6.6 0v2.3"/></svg>Private on this device</span>
+      <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav id="nav" class="nav" aria-label="Primary"><a href="#compare">Compare</a><a href="#about">About</a><a href="#help">Help</a><button class="top-add" id="top-add" type="button">Add garment</button></nav>
+    </div>
+  </header>
+
+  <main id="compare" class="page">
+    <section class="intro" aria-labelledby="main-title">
+      <h1 id="main-title">Find a closer fit, before the pickup.</h1>
+      <p>Compare a garment you already like with donated garments. Shortlist similar measurements before visiting a community clothing exchange.</p>
+    </section>
+
+    <div class="workspace">
+      <section class="panel reference-panel" aria-labelledby="reference-title">
+        <h2 id="reference-title">Your reference garment</h2>
+        <p>Measure a garment that fits you well, laid flat. Compare a similar type of item. Measurements stay in this tab.</p>
+        <form id="reference-form">
+          <label for="ref-chest">Chest width <span>(cm)</span><small>Armpit to armpit, laid flat</small></label>
+          <input id="ref-chest" name="chest" type="number" inputmode="decimal" min="1" max="300" step="0.1" required>
+          <label for="ref-length">Length <span>(cm)</span><small>Top of shoulder to hem</small></label>
+          <input id="ref-length" name="length" type="number" inputmode="decimal" min="1" max="300" step="0.1" required>
+          <label for="ref-sleeve">Sleeve <span>(cm)</span><small>Shoulder seam to cuff</small></label>
+          <input id="ref-sleeve" name="sleeve" type="number" inputmode="decimal" min="1" max="300" step="0.1" required>
+          <button id="load-sample" class="sample-button" type="button">Load fictional sample</button>
+          <p class="sample-hint">The sample uses three fictional donated outer layers.</p>
+          <button class="primary-button" type="submit">Compare garments <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+
+      <div class="data-stack">
+        <section class="panel inventory-panel" aria-labelledby="inventory-title">
+          <div class="panel-heading"><div><h2 id="inventory-title">Donated garments</h2><p>Add the measurements listed by a community exchange or volunteer. Only the three dimensions are compared.</p></div><button id="add-garment" class="secondary-button" type="button"><span aria-hidden="true">＋</span> Add garment</button></div>
+          <div class="inventory-head" aria-hidden="true"><span>Item</span><span>Type</span><span>Chest width</span><span>Length</span><span>Sleeve</span><span>Actions</span></div>
+          <div id="inventory-list" class="inventory-list"></div>
+        </section>
+
+        <section class="panel results-panel" aria-labelledby="results-title">
+          <div class="results-header"><div><h2 id="results-title">Likely matches</h2><p>Ranked by dimensional similarity to your reference garment.</p></div><p class="caveat">A measurement match is not a fit guarantee.</p></div>
+          <div class="results-head" aria-hidden="true"><span>#</span><span>Item</span><span>Chest Δ</span><span>Length Δ</span><span>Sleeve Δ</span><span>Review</span></div>
+          <div id="results-list" class="results-list" aria-live="polite"></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="information" id="about"><div><h2>Designed for reuse, with honest limits.</h2><p>FitRelay is a free prototype for people and community exchanges sharing pre-owned clothing. A simple measurement comparison may help shortlist items before a pickup. It has not been tested for reducing textile waste, travel, or returns. Fabric, cut, condition, and personal preference still matter.</p></div><div id="help"><h2>How to measure</h2><ol><li>Choose a garment that already fits you comfortably.</li><li>Lay it flat and measure chest width, shoulder-to-hem length, and shoulder-to-cuff sleeve.</li><li>Compare like with like, then inspect the garment in person when possible.</li></ol><p class="source-note">Context: <a href="https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/textiles-material-specific-data" target="_blank" rel="noopener">EPA textile waste data</a>. The EPA has not evaluated FitRelay.</p></div></section>
+  </main>
+
+  <footer class="site-footer"><span class="brand">FitRelay</span><span>Fictional sample · Local comparison · No fit guarantee</span><span>Built for Code for Humanity</span></footer>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <dialog id="garment-dialog" aria-labelledby="dialog-title"><form id="garment-form"><div class="dialog-header"><h2 id="dialog-title">Add donated garment</h2><button id="close-dialog" type="button" aria-label="Close">×</button></div><p>Enter the garment's laid-flat measurements in centimeters.</p><label for="item-name">Item name</label><input id="item-name" name="name" maxlength="60" required><label for="item-type">Type</label><select id="item-type" name="type"><option>Outer layer</option><option>Shirt</option><option>Other</option></select><div class="dialog-measures"><div><label for="item-chest">Chest width (cm)</label><input id="item-chest" name="chest" type="number" inputmode="decimal" min="1" max="300" step="0.1" required></div><div><label for="item-length">Length (cm)</label><input id="item-length" name="length" type="number" inputmode="decimal" min="1" max="300" step="0.1" required></div><div><label for="item-sleeve">Sleeve (cm)</label><input id="item-sleeve" name="sleeve" type="number" inputmode="decimal" min="1" max="300" step="0.1" required></div></div><div class="dialog-actions"><button id="cancel-dialog" type="button" class="secondary-button">Cancel</button><button type="submit" class="primary-button">Save garment</button></div></form></dialog>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
