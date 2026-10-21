@@ -28,3 +28,13 @@ test('rejects absent and implausible measurements instead of implying a match', 
   assert.throws(() => compareGarments(reference, [{ name: 'Incomplete', chest: 52, length: 68 }]), RangeError);
   assert.throws(() => compareGarments(reference, Array(31).fill(items[0])), RangeError);
 });
+
+test('rounding the displayed score does not change nearest-first ordering', () => {
+  const ranked = compareGarments(reference, [
+    {name: 'Farther', chest: 54, length: 70.2, sleeve: 64},
+    {name: 'Closer', chest: 54, length: 70.1, sleeve: 64},
+  ]);
+  assert.deepEqual(ranked.map(item => item.name), ['Closer', 'Farther']);
+  assert.equal(ranked[0].score, 0.01);
+  assert.equal(ranked[1].score, 0.01);
+});

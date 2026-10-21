@@ -25,6 +25,7 @@ export function compareGarments(reference, inventory) {
     const score = fields.reduce((sum, field) => sum + weights[field] * Math.abs(differences[field]) / tolerances[field], 0);
     const maxNormalized = Math.max(...fields.map((field) => Math.abs(differences[field]) / tolerances[field]));
     const label = maxNormalized <= 1 ? 'Close measurements' : maxNormalized <= 2.5 ? 'Worth a look' : 'Check carefully';
-    return { ...item, measurements, differences, score: Math.round(score * 100) / 100, label, originalIndex: index };
-  }).sort((a, b) => a.score - b.score || a.originalIndex - b.originalIndex);
+    return { ...item, measurements, differences, score, label, originalIndex: index };
+  }).sort((a, b) => a.score - b.score || a.originalIndex - b.originalIndex)
+    .map(item => ({ ...item, score: Math.round(item.score * 100) / 100 }));
 }
